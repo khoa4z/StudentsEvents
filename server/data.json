@@ -1,0 +1,37 @@
+[
+  {
+    "firstName" : "Davis",
+    "lastName"  : "Bopp",
+    "gender"    : "M",
+    "email"     : "da_bopp@gmail.com",
+    "cellphone" : "202-555-0117"
+  },
+  {
+    "firstName" : "Oralia",
+    "lastName"  : "Cully",
+    "gender"    : "F",
+    "email"     : "oralia144@hotmail.com",
+    "cellphone" : "202-555-0120"
+  },
+  {
+    "firstName" : "Herminia",
+    "lastName"  : "Pizer",
+    "gender"    : "F",
+    "email"     : "pizer.herminia@gmail.com",
+    "cellphone" : "202-555-0116"
+  },
+  {
+    "firstName" : "Jimmie",
+    "lastName"  : "Barlett",
+    "gender"    : "M",
+    "email"     : "jimmiehoang16@gmail.com",
+    "cellphone" : "202-555-0102"
+  },
+  {
+    "firstName" : "Delmar",
+    "lastName"  : "Schacht",
+    "gender"    : "M",
+    "email"     : "princeofmars01@gmail.com",
+    "cellphone" : "202-555-0156"
+  }
+]

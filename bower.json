@@ -1,0 +1,32 @@
+{
+  "name": "Template",
+  "version": "0.0.1",
+  "authors": [
+    "Ken Harvey Nguyen <khoa4z@hotmail.com>"
+  ],
+  "description": "Angular Template",
+  "moduleType": [
+    "globals",
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "angular": "~1.4.3",
+    "angular-ui-router": "~0.2.15",
+    "angular-resource": "~1.4.3",
+    "angular-messages": "~1.4.3",
+    "ng-lodash": "~0.2.3",
+    "fontawesome": "~4.4.0",
+    "angular-route": "~1.4.3",
+    "eonasdan-bootstrap-datetimepicker": "~4.15.35"
+  }
+}

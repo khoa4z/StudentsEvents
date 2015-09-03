@@ -1,0 +1,133 @@
+<ol class="breadcrumb">
+    <li><a href="/home">Home</a></li>
+    <li>All</li>
+</ol>
+
+<div class="container">
+    <div class="row" id="searchStudentDiv" ng-hide="students.length < 1">
+        <div class="col-xs-12 col-sm-10 col-lg-11">
+            <input class='form-control' type='text' placeholder='Search' ng-model='searchStudentQuery'/>
+        </div>
+        <div class="col-xs-12 col-sm-2 col-lg-1">
+            <a href="/addStudent" class="btn btn-link"> <span class="glyphicon glyphicon-plus"></span> Add </a>
+        </div>
+    </div>
+
+    <table class='table table-hover table-bordered' ng-hide="filtered.length < 1">
+        <thead>
+        <tr>
+            <th ng-repeat='field in studentFields' ng-click='sort(field)'>
+                {{ field | label }}
+                <div ng-show="currentField === field" class="pull-right">
+                    <span ng-show='!currentOrder' class='glyphicon glyphicon-chevron-down'></span>
+                    <span ng-show='currentOrder' class='glyphicon glyphicon-chevron-up'></span>
+                </div>
+            </th>
+            <th>
+                # events
+            </th>
+            <th> <!-- temporary -->
+                Delete
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+            <!--<tr ng-repeat='stud in students | filter: searchStudentQuery | orderBy: currentField : currentOrder'>-->
+            <tr ng-repeat='stud in filtered = (students | filter: searchStudentQuery) | orderBy: currentField : currentOrder ' ng-dblclick="editStudent(stud._id)">
+                <td ng-repeat='field in studentFields'> {{ stud[field] }} </td>
+                <td><span ng-class=' {"italic small red": stud.events.length==0 || stud.events.length==null }'>
+                    {{ stud.events.length | zero }}
+                </span></td>
+                <td><button class="btn btn-danger" ng-click="delete(stud)"> <span class="glyphicon glyphicon-minus"></span> </button> </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="alert alert-warning text-center" role="alert" ng-show="filtered.length < 1 || students.length < 1">
+        <h4><i class="fa fa-warning"></i> Warning!</h4>
+        <p><strong>No student found.  &nbsp; &nbsp; &nbsp; </strong>
+            <a href="/addStudent"> <span class="glyphicon glyphicon-plus"></span> Add a new student </a>
+        </p>
+    </div><!-- .alert-warning -->
+
+    <!-- **************************************************************************************   -->
+    <!--                                    #Event data                                           -->
+    <!-- **************************************************************************************   -->
+
+    <div class="panel panel-info" ng-hide="events.length < 1">
+        <div class="panel-heading">
+            <div class="row" id="">
+                <div class="col-xs-12 col-sm-2 col-lg-1">
+                    <h3 style="margin-top:6px; margin-bottom:6px">Events</h3>
+                </div>
+                <div class="col-xs-12 col-sm-8 col-lg-10">
+                    <input class='form-control' type='text' placeholder='Search' ng-model='searchEventQuery'/>
+                </div>
+                <div class="col-xs-12 col-sm-2 col-lg-1">
+                    <a href="/addEvent" class="btn btn-link"> <span class="glyphicon glyphicon-plus"></span> Add </a>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table class='table table-hover table-bordered' ng-hide="eventFiltered.length < 1">
+                <thead>
+                <tr>
+                    <th ng-repeat='field in eventFields' ng-click='sort(field)'>
+                        {{ field | label }}
+                        <div ng-show="currentField === field" class="pull-right">
+                            <span ng-show='!currentOrder' class='glyphicon glyphicon-chevron-down'></span>
+                            <span ng-show='currentOrder' class='glyphicon glyphicon-chevron-up'></span>
+                        </div>
+                    </th>
+                    <th>
+                        # Students
+                    </th>
+                    <th> <!-- temporary -->
+                        Delete
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--<tr ng-repeat='stud in students | filter: searchStudentQuery | orderBy: currentField : currentOrder'>-->
+                <tr ng-repeat='event in  eventFiltered = (events | filter: searchEventQuery) | orderBy: currentField : currentOrder ' ng-dblclick="editEvent(event._id)">
+                    <td ng-repeat='field in eventFields'> {{ event[field] | dateTimeFilter }} </td>
+                    <td>
+                        <span ng-class=' {"italic small red": event.students.length==0 || event.students.length==null }'>
+                            {{ event.students.length | zero }}
+                        </span>
+                    </td>
+                    <td><button class="btn btn-danger" ng-click="deleteEvent(event)"> <span class="glyphicon glyphicon-minus"></span> </button> </td>
+                </tr>
+                </tbody>
+            </table>
+        </div><!-- .panel-body -->
+    </div> <!-- .panel -->
+
+    <div class="alert alert-warning text-center" role="alert" ng-show="eventFiltered.length < 1 || events.length < 1">
+        <h4><i class="fa fa-warning"></i> Warning!</h4>
+        <p><strong>No event found. &nbsp; &nbsp; &nbsp;</strong>
+            <a href="/addEvent"> <span class="glyphicon glyphicon-plus"></span> Add a new event </a>
+        </p>
+    </div><!-- .alert-warning -->
+
+
+</div> <!-- .container -->
+
+<script type="text/javascript" defer>
+    var $window = $(window);
+    if( document.getElementById('searchStudentDiv') != null ){
+        if ($window.width() > 750) {
+            document.getElementById('searchStudentDiv').className = 'row replaceBR';
+        }else{
+            document.getElementById('searchStudentDiv').className = 'row';
+        }
+    }
+
+    if( document.getElementById('searchStudentDiv') != null ){
+        if ($window.width() > 750) {
+            document.getElementById('searchStudentDiv').className = 'row replaceBR';
+        }else{
+            document.getElementById('searchStudentDiv').className = 'row';
+        }
+    }
+</script>

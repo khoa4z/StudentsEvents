@@ -1,0 +1,170 @@
+<ol class="breadcrumb">
+    <li><a href="/home">Home</a></li>
+    <li><a href="/all">All</a></li>
+    <li>Add an Event</li>
+</ol>
+
+<div class="container">
+    <div class="row">
+        <form class="form-horizontal" role="form">
+             <fieldset>
+                 <div class="col-md-8">
+                 <legend>New Record:</legend>
+                    <div class="form-group">
+                        <label for="eventName" class="col-sm-3 col-md-3 col-lg-2 control-label">Event Name</label>
+                        <div class="col-sm-8 col-md-9 col-lg-10">
+                            <input type="text" class="form-control" id="eventName" placeholder="Event Name" ng-model="event.eventName" required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="funder" class="col-sm-3 col-md-3 col-lg-2 control-label">Funded By</label>
+                        <div class="col-sm-8 col-md-9 col-lg-10">
+                            <input type="text" class="form-control" id="funder" placeholder="" ng-model="event.fundedBy">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="datetimepickerStartDate" class="col-sm-3 col-md-3 col-lg-2 control-label">Start On</label>
+                        <div class="col-sm-6 col-md-7 col-lg-8" id="startDate">
+                            <div class='input-group date text-center' id='datetimepickerStartDate'>
+                                <input type='text' class="form-control" id="eventStartDate" ng-model="event.startDate"/>
+                                <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span> </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="datetimepickerEndDate" class="col-sm-3 col-md-3 col-lg-2 control-label">End On</label>
+                        <div class="col-sm-6 col-md-7 col-lg-8" id="endDate">
+                            <div class='input-group date text-center' id='datetimepickerEndDate'>
+                                <input type='text' class="form-control" id="eventEndDate" ng-model="event.endDate"/>
+                                <span class="input-group-addon">  <span class="glyphicon glyphicon-calendar"></span>  </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- @todo: New field -->
+                     <div class="panel panel-success">
+                         <div class="panel-heading">Attended students</div>
+                         <div class="panel-body">
+                             <table class='table table-hover table-bordered' ng-hide="event.students.length == 0 || event.students == null">
+                                 <thead>
+                                     <tr>
+                                         <th ng-repeat='field in studentFields'>
+                                             {{ field | label }}
+                                         </th>
+                                         <th>
+                                             Hours
+                                         </th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                     <tr ng-repeat='student in event.students track by student._id'>
+                                         <td ng-repeat='field in studentFields'> {{ student[field] }} </td>
+                                         <td> <input type='text' placeholder="0" ng-model="student.hours" class="form-control"/> </td>
+                                     </tr>
+                                 </tbody>
+                             </table>
+                             <div class="alert alert-warning text-center" role="alert" ng-show="event.students.length == 0 || event.students == null">
+                                 <h4><i class="fa fa-warning"></i> Warning!</h4>
+                                 <p><strong>No event. Please choose from below events </strong></p>
+                             </div><!-- .alert-warning -->
+                         </div>
+                     </div>
+
+                     <hr/>
+
+                     <div class="panel panel-info">
+                         <div class="panel-heading">Remaining students</div>
+                         <div class="panel-body">
+                             <input class='form-control' type='text' placeholder='Search' ng-model='searchStudentQuery'/>
+
+                             <table class='table table-hover table-bordered' ng-hide="filtered.length < 1">
+                                 <thead>
+                                     <tr>
+                                         <th ng-repeat='field in studentFields' ng-click='sort(field)'>
+                                             {{ field | label }}
+                                             <div ng-show="currentField === field" class="pull-right">
+                                                 <span ng-show='!currentOrder' class='glyphicon glyphicon-chevron-down'></span>
+                                                 <span ng-show='currentOrder' class='glyphicon glyphicon-chevron-up'></span>
+                                             </div>
+                                         </th>
+                                         <th>
+                                             # events
+                                         </th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                 <!--<tr ng-repeat='stud in students | filter: searchStudentQuery | orderBy: currentField : currentOrder'>-->
+                                     <tr  ng-repeat='stud in filtered = (students | filter: searchStudentQuery) | orderBy: currentField : currentOrder ' ng-hide="duplicateStudent(stud._id)"
+                                          ng-click="setSelected(stud._id)" ng-class="{'info': checkID(stud._id)}" >
+                                         <td ng-repeat='field in studentFields'> {{ stud[field] }} </td>
+                                         <td><span ng-class=' {"italic small red": stud.events.length==0 || stud.events.length==null }'>
+                                            {{ stud.events.length | zero }}
+                                        </span></td>
+                                     </tr>
+                                 </tbody>
+                             </table>
+
+                         </div>
+                     </div><!-- panel -->
+
+                 </div>
+
+                 <div class="col-md-4">
+                     <div class="form-group">
+                         <div class="col-lg-10 col-lg-offset-2">
+                             <div class="row">
+                                 <div class="col-sm-6 marginBT12">
+                                     <a class="btn btn-default btn-block" href="/all">Cancel</a>
+                                 </div>
+                                 <div class="col-sm-6 marginBT12">
+                                 <button type="button" ng-click="submit('all')" class="btn btn-warning btn-block">Update/Go Back</button>
+                                 </div>
+                                 <div class="col-sm-12 marginBT12">
+                                     <button type="button" ng-click="submit('stay')" class="btn btn-warning btn-block">Update/Stay</button>
+                                 </div>
+                             </div>
+
+                         </div>
+                     </div>
+                     <!-- Button trigger modal -->
+                     <div class="form-group">
+                         <div class="col-lg-10 col-lg-offset-2">
+                             <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#deleteModal">
+                                 Delete this record
+                             </button>
+                         </div>
+                     </div>
+                 </div>
+
+            </fieldset>
+        </form>
+    </div><!-- .row -->
+</div> <!-- .container -->
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">{{event.eventName}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    Do you want to delete this record ?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" ng-click="delete(event._id)">Delete</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepickerStartDate').datetimepicker();
+        $('#datetimepickerEndDate').datetimepicker();
+    });
+</script>
